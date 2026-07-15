@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Balloon Pricing Calculator - What to Charge for Garlands & Arches</title>
+<meta name="description" content="Free balloon pricing calculator for decorators, no account needed. Enter balloon count, materials, labor, and delivery to see your true cost and what to charge a client.">
+<link rel="canonical" href="https://ballooncoveragecalculator.com/pricing-calculator.html">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="styles.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7138011475350254"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="site-name" href="/">Balloon<span>Coverage</span>Calculator</a>
+    <nav>
+      <a href="/">Coverage Calculator</a>
+      <a href="pricing-calculator.html" class="active">Pricing</a>
+      <a href="helium-tank-calculator.html">Helium Tank</a>
+      <a href="balloons-per-foot-chart.html">Per-Foot Chart</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="eyebrow">For Decorators</div>
+  <h1>Balloon Pricing Calculator</h1>
+  <p class="intro">Know what a design really costs you — and what to charge for it. Enter your balloon count, materials, and time; get your true cost, a suggested quote, and your effective hourly earnings.</p>
+  <div class="free-badge">100% free &middot; No account required</div>
+
+  <div class="card">
+    <div class="grid">
+      <div><label for="count">Total balloons <span style="font-weight:400">(from the <a href="/">coverage calculator</a>)</span></label><input type="number" id="count" value="120" min="0" step="5"></div>
+      <div><label for="perBalloon">Your cost per balloon ($)</label><input type="number" id="perBalloon" value="0.35" min="0" step="0.01"></div>
+      <div><label for="materials">Other materials ($ — strip, hooks, frame, greenery)</label><input type="number" id="materials" value="15" min="0" step="1"></div>
+      <div><label for="hours">Total hours (inflating + building + install)</label><input type="number" id="hours" value="3" min="0" step="0.5"></div>
+      <div><label for="rate">Your labor rate ($/hour)</label><input type="number" id="rate" value="30" min="0" step="1"></div>
+      <div><label for="delivery">Delivery / travel ($)</label><input type="number" id="delivery" value="20" min="0" step="1"></div>
+      <div><label for="markup">Profit margin on top (%)</label><input type="number" id="markup" value="20" min="0" step="1"></div>
+    </div>
+    <button class="primary" onclick="calc()">What should I charge?</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="big-answer">
+      <div class="label">Suggested quote</div>
+      <div class="value" id="quote"></div>
+      <div id="detail" style="margin-top:4px;color:var(--muted);font-size:.9rem"></div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="label">Balloon cost</div><div class="value" id="balloonCost"></div></div>
+      <div class="stat"><div class="label">All materials + delivery</div><div class="value" id="hardCost"></div></div>
+      <div class="stat"><div class="label">Labor</div><div class="value" id="labor"></div></div>
+      <div class="stat"><div class="label">Your total cost</div><div class="value" id="totalCost"></div></div>
+      <div class="stat"><div class="label">Effective earnings/hour</div><div class="value" id="perHour"></div></div>
+    </div>
+    <div class="card">
+      <div class="share-row">
+        <button class="ghost" onclick="copyLink()">Copy link to this quote</button>
+        <span class="share-msg" id="shareMsg">Link copied</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="explain">
+    <h2>How the quote is built</h2>
+    <p>The calculation is the one professional decorators use, made explicit: hard costs (balloons at your per-unit price, plus strips, hooks, frames, and delivery), plus your labor at an honest hourly rate, plus a profit margin on top. The margin is not greed — it covers the unbillable parts of running a decorating side business: quoting time, shopping trips, popped inventory, tools that wear out, and the jobs that never book.</p>
+    <p>The most common pricing mistake is charging for materials and forgetting the hours. A 120-balloon organic garland takes real time to inflate, cluster, and install — if the quote doesn't include labor, the "profit" is often below minimum wage once you divide by hours worked. That's exactly what the effective earnings-per-hour figure shows you.</p>
+    <h2>Rules of thumb to sanity-check your number</h2>
+    <ul>
+      <li>Many decorators price organic garlands in the range of $10&ndash;$20+ per linear foot depending on region, fullness, and installation complexity — compare that to your quote divided by your garland length.</li>
+      <li>A common shortcut is charging 3&times; the cost of materials; the full breakdown above is more accurate because it prices <em>your time</em> explicitly rather than hoping the multiple covers it.</li>
+      <li>Quote higher for on-site installs, stairs and ladders, outdoor conditions, and rush jobs. The hours field is where that shows up.</li>
+    </ul>
+    <p>Start from an accurate balloon count with the <a href="/">coverage calculator</a> — its "Price this design" button carries the count straight into this page.</p>
+  </section>
+
+  <p class="disclaimer">This tool provides planning estimates, not business or financial advice. Market rates vary widely by region and design complexity. This site is free to use and requires no account.</p>
+</main>
+<footer>
+  <div class="footer-inner">
+    <div>&copy; 2026 BalloonCoverageCalculator.com &middot; A <a href="https://swrltools.com">Swrl Tools</a> site</div>
+    <div><a href="about.html">About</a> &middot; <a href="contact.html">Contact</a> &middot; <a href="privacy-policy.html">Privacy</a></div>
+  </div>
+</footer>
+<script>
+const $=id=>document.getElementById(id);
+const fmt=n=>'$'+(Math.round(n*100)/100).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+const P={count:'n',perBalloon:'c',materials:'m',hours:'h',rate:'r',delivery:'d',markup:'k'};
+function calc(pushUrl=true){
+  const n=+$('count').value,c=+$('perBalloon').value,m=+$('materials').value,
+        h=+$('hours').value,r=+$('rate').value,d=+$('delivery').value,k=+$('markup').value/100;
+  const balloons=n*c, hard=balloons+m+d, labor=h*r, cost=hard+labor;
+  const quote=cost*(1+k);
+  $('quote').textContent=fmt(quote);
+  $('detail').textContent='Covers all costs plus a '+$('markup').value+'% margin. Round to a clean number when quoting.';
+  $('balloonCost').textContent=fmt(balloons);
+  $('hardCost').textContent=fmt(hard);
+  $('labor').textContent=fmt(labor);
+  $('totalCost').textContent=fmt(cost);
+  $('perHour').textContent=h>0?fmt((quote-hard)/h):'—';
+  $('results').classList.add('show');
+  if(pushUrl){
+    const q=new URLSearchParams();
+    for(const[id,key]of Object.entries(P))q.set(key,$(id).value);
+    history.replaceState(null,'','?'+q.toString());
+  }
+}
+function copyLink(){
+  navigator.clipboard.writeText(location.href).then(()=>{
+    $('shareMsg').style.display='inline';
+    setTimeout(()=>$('shareMsg').style.display='none',2000);
+  });
+}
+(function(){
+  const q=new URLSearchParams(location.search);let any=false;
+  for(const[id,key]of Object.entries(P))if(q.has(key)){$(id).value=q.get(key);any=true;}
+  if(any)calc(false);
+})();
+</script>
+</body>
+</html>

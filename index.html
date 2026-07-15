@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Balloon Coverage Calculator - How Many Balloons Do I Need?</title>
+<meta name="description" content="Free balloon calculator, no account required. Pick your shape - garland, arch, column, hoop, wall, or number frame - and get an exact balloon count by size, with a built-in extra-balloon buffer.">
+<link rel="canonical" href="https://ballooncoveragecalculator.com/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="styles.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7138011475350254"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="site-name" href="/">Balloon<span>Coverage</span>Calculator</a>
+    <nav>
+      <a href="/" class="active">Coverage Calculator</a>
+      <a href="pricing-calculator.html">Pricing</a>
+      <a href="helium-tank-calculator.html">Helium Tank</a>
+      <a href="balloons-per-foot-chart.html">Per-Foot Chart</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="eyebrow">How Many Balloons?</div>
+  <h1>Balloon Coverage Calculator</h1>
+  <p class="intro">Pick the shape you're decorating, enter its measurements, and get an exact balloon count broken down by size — including the extra balloons pros order for pops and mistakes.</p>
+  <div class="free-badge">100% free &middot; No account required &middot; Nothing to download</div>
+
+  <div class="card">
+    <label>What are you building?</label>
+    <div class="shape-grid" id="shapes">
+      <button type="button" class="shape-option selected" data-shape="garland" onclick="pickShape(this)">
+        <svg viewBox="0 0 120 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M8 18 Q60 52 112 18" fill="none" stroke="#ecdfe5" stroke-width="2"/>
+          <circle cx="14" cy="21" r="8" fill="#b53e63"/><circle cx="28" cy="28" r="6" fill="#3e7ab5"/>
+          <circle cx="41" cy="34" r="9" fill="#e0a23a"/><circle cx="56" cy="38" r="7" fill="#b53e63"/>
+          <circle cx="70" cy="37" r="9" fill="#3e7ab5"/><circle cx="84" cy="32" r="6" fill="#e0a23a"/>
+          <circle cx="96" cy="26" r="8" fill="#b53e63"/><circle cx="108" cy="20" r="6" fill="#3e7ab5"/>
+          <circle cx="35" cy="26" r="4" fill="#e8c9d5"/><circle cx="63" cy="30" r="4" fill="#c9d8e8"/><circle cx="90" cy="24" r="4" fill="#efe0c2"/>
+        </svg>
+        <div class="shape-label">Garland</div>
+      </button>
+      <button type="button" class="shape-option" data-shape="arch" onclick="pickShape(this)">
+        <svg viewBox="0 0 120 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 60 Q20 12 60 12 Q100 12 100 60" fill="none" stroke="#ecdfe5" stroke-width="2"/>
+          <circle cx="20" cy="56" r="7" fill="#b53e63"/><circle cx="21" cy="42" r="6" fill="#3e7ab5"/>
+          <circle cx="26" cy="29" r="7" fill="#e0a23a"/><circle cx="36" cy="19" r="6" fill="#b53e63"/>
+          <circle cx="49" cy="13" r="7" fill="#3e7ab5"/><circle cx="63" cy="12" r="6" fill="#e0a23a"/>
+          <circle cx="76" cy="15" r="7" fill="#b53e63"/><circle cx="87" cy="22" r="6" fill="#3e7ab5"/>
+          <circle cx="95" cy="33" r="7" fill="#e0a23a"/><circle cx="99" cy="46" r="6" fill="#b53e63"/>
+          <circle cx="100" cy="58" r="7" fill="#3e7ab5"/>
+        </svg>
+        <div class="shape-label">Arch</div>
+      </button>
+      <button type="button" class="shape-option" data-shape="column" onclick="pickShape(this)">
+        <svg viewBox="0 0 120 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="52" cy="10" r="7" fill="#b53e63"/><circle cx="68" cy="10" r="7" fill="#3e7ab5"/>
+          <circle cx="52" cy="24" r="7" fill="#e0a23a"/><circle cx="68" cy="24" r="7" fill="#b53e63"/>
+          <circle cx="52" cy="38" r="7" fill="#3e7ab5"/><circle cx="68" cy="38" r="7" fill="#e0a23a"/>
+          <circle cx="52" cy="52" r="7" fill="#b53e63"/><circle cx="68" cy="52" r="7" fill="#3e7ab5"/>
+        </svg>
+        <div class="shape-label">Column</div>
+      </button>
+      <button type="button" class="shape-option" data-shape="hoop" onclick="pickShape(this)">
+        <svg viewBox="0 0 120 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="60" cy="32" r="24" fill="none" stroke="#ecdfe5" stroke-width="3"/>
+          <circle cx="60" cy="8" r="7" fill="#b53e63"/><circle cx="78" cy="14" r="6" fill="#3e7ab5"/>
+          <circle cx="84" cy="30" r="7" fill="#e0a23a"/><circle cx="79" cy="47" r="6" fill="#b53e63"/>
+          <circle cx="63" cy="56" r="7" fill="#3e7ab5"/><circle cx="45" cy="52" r="6" fill="#e0a23a"/>
+          <circle cx="37" cy="36" r="7" fill="#b53e63"/><circle cx="41" cy="18" r="6" fill="#3e7ab5"/>
+        </svg>
+        <div class="shape-label">Hoop / Ring</div>
+      </button>
+      <button type="button" class="shape-option" data-shape="wall" onclick="pickShape(this)">
+        <svg viewBox="0 0 120 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="26" cy="12" r="8" fill="#b53e63"/><circle cx="44" cy="12" r="8" fill="#3e7ab5"/><circle cx="62" cy="12" r="8" fill="#e0a23a"/><circle cx="80" cy="12" r="8" fill="#b53e63"/><circle cx="98" cy="12" r="8" fill="#3e7ab5"/>
+          <circle cx="35" cy="28" r="8" fill="#e0a23a"/><circle cx="53" cy="28" r="8" fill="#b53e63"/><circle cx="71" cy="28" r="8" fill="#3e7ab5"/><circle cx="89" cy="28" r="8" fill="#e0a23a"/>
+          <circle cx="26" cy="44" r="8" fill="#3e7ab5"/><circle cx="44" cy="44" r="8" fill="#e0a23a"/><circle cx="62" cy="44" r="8" fill="#b53e63"/><circle cx="80" cy="44" r="8" fill="#3e7ab5"/><circle cx="98" cy="44" r="8" fill="#e0a23a"/>
+        </svg>
+        <div class="shape-label">Wall / Backdrop</div>
+      </button>
+      <button type="button" class="shape-option" data-shape="frame" onclick="pickShape(this)">
+        <svg viewBox="0 0 120 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M45 8 h20 v48 h-20 v-32 h-10 v-8 h10 z" fill="none" stroke="#ecdfe5" stroke-width="2"/>
+          <circle cx="50" cy="10" r="5" fill="#b53e63"/><circle cx="60" cy="10" r="5" fill="#3e7ab5"/>
+          <circle cx="62" cy="20" r="5" fill="#e0a23a"/><circle cx="62" cy="30" r="5" fill="#b53e63"/>
+          <circle cx="62" cy="40" r="5" fill="#3e7ab5"/><circle cx="62" cy="50" r="5" fill="#e0a23a"/>
+          <circle cx="52" cy="54" r="5" fill="#b53e63"/><circle cx="48" cy="44" r="5" fill="#3e7ab5"/>
+          <circle cx="48" cy="34" r="5" fill="#e0a23a"/><circle cx="48" cy="24" r="5" fill="#b53e63"/>
+          <circle cx="40" cy="16" r="5" fill="#3e7ab5"/>
+        </svg>
+        <div class="shape-label">Number / Letter</div>
+      </button>
+      <button type="button" class="shape-option" data-shape="custom" onclick="pickShape(this)">
+        <svg viewBox="0 0 120 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M10 40 Q40 10 60 34 T112 28" fill="none" stroke="#ecdfe5" stroke-width="2" stroke-dasharray="5 4"/>
+          <circle cx="14" cy="38" r="7" fill="#b53e63"/><circle cx="34" cy="22" r="6" fill="#3e7ab5"/>
+          <circle cx="55" cy="30" r="7" fill="#e0a23a"/><circle cx="78" cy="36" r="6" fill="#b53e63"/>
+          <circle cx="100" cy="30" r="7" fill="#3e7ab5"/>
+        </svg>
+        <div class="shape-label">Custom Length</div>
+      </button>
+    </div>
+
+    <div class="grid" id="dims" style="margin-top:14px"></div>
+    <div class="dim-note" id="dimNote"></div>
+
+    <div class="grid">
+      <div>
+        <label for="density">Fullness / style</label>
+        <select id="density">
+          <option value="classic">Classic — uniform 11" balloons</option>
+          <option value="organic" selected>Organic — mixed sizes, standard fullness</option>
+          <option value="full">Organic — extra full &amp; layered</option>
+        </select>
+      </div>
+    </div>
+    <button class="primary" onclick="calc()">How many balloons do I need?</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="big-answer">
+      <div class="label">Balloons to order (includes 10% extra)</div>
+      <div class="value" id="total"></div>
+      <div id="detail" style="margin-top:4px;color:var(--muted);font-size:.9rem"></div>
+    </div>
+    <div class="stat-row" id="breakdown"></div>
+    <div class="card">
+      <div class="share-row">
+        <button class="ghost" onclick="copyLink()">Copy link to these results</button>
+        <a class="ghost" id="toPricing" href="pricing-calculator.html">Price this design &rarr;</a>
+        <span class="share-msg" id="shareMsg">Link copied</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="explain">
+    <h2>How the balloon count is calculated</h2>
+    <p>Every shape reduces to a length or area to cover, multiplied by how many balloons fit per foot at your chosen fullness. A classic garland uses clusters of four 11" balloons per foot. Organic styles pack more in: mixed sizes (16" statement balloons, 11" workhorses, and 5" fillers tucked into the gaps) are what create the full, flowing look — and they raise the count fast. Arches and hoops first convert their dimensions into a linear length (an arch over a doorway is roughly its width plus twice its height along the curve; a hoop is just its circumference), and walls work by the square foot instead.</p>
+    <p>The result always includes a 10% buffer, because balloons pop during inflation, necks tear while tying, and colors run short — every experienced decorator orders extra. The breakdown by size is what you actually put in your cart.</p>
+    <h2>Measuring tips from decorators</h2>
+    <ul>
+      <li><strong>Garlands:</strong> don't guess the length — run a string or painter's tape along the actual path (up a stair rail, across a mantel, around a doorway) and measure the string.</li>
+      <li><strong>Number and letter frames:</strong> measure the outline path the balloons will follow, including inner cutouts (the hole in a 0 or 8 counts). Mosaic-style frames filled with 5" balloons use far more than you'd expect.</li>
+      <li><strong>Walls:</strong> width &times; height in feet. If only part of the wall gets balloons, measure just that section.</li>
+      <li><strong>Balloon sizes are inflated sizes.</strong> An "11-inch balloon" under-inflated to 8 or 9 inches packs tighter and needs more per foot — when in doubt, choose the fuller style option.</li>
+    </ul>
+    <p>Once you have your count, our <a href="pricing-calculator.html">pricing calculator</a> turns it into a material cost and a quote (for decorators charging clients), and the <a href="helium-tank-calculator.html">helium tank calculator</a> tells you what tank size you need if any of the design floats. Prefer to eyeball it from a table? See the <a href="balloons-per-foot-chart.html">balloons-per-foot chart</a>.</p>
+  </section>
+
+  <p class="disclaimer">Counts are planning estimates based on standard decorating ratios. Actual usage varies with inflation size, clustering technique, and design style. This site is free to use and requires no account.</p>
+</main>
+<footer>
+  <div class="footer-inner">
+    <div>&copy; 2026 BalloonCoverageCalculator.com &middot; A <a href="https://swrltools.com">Swrl Tools</a> site</div>
+    <div><a href="about.html">About</a> &middot; <a href="contact.html">Contact</a> &middot; <a href="privacy-policy.html">Privacy</a></div>
+  </div>
+</footer>
+<script>
+const $=id=>document.getElementById(id);
+let shape='garland';
+
+const DIMS={
+  garland:[{id:'len',label:'Garland length (feet)',val:10}],
+  arch:[{id:'w',label:'Arch width at base (feet)',val:8},{id:'h',label:'Arch height (feet)',val:8}],
+  column:[{id:'h',label:'Column height (feet)',val:6},{id:'n',label:'Number of columns',val:2}],
+  hoop:[{id:'d',label:'Hoop diameter (feet)',val:6}],
+  wall:[{id:'w',label:'Wall width (feet)',val:8},{id:'h',label:'Wall height (feet)',val:8}],
+  frame:[{id:'len',label:'Outline length to cover (feet)',val:9}],
+  custom:[{id:'len',label:'Total length to cover (feet)',val:10}]
+};
+const NOTES={
+  garland:'Measure along the actual path with string or tape — up rails, around corners.',
+  arch:'A doorway arch: width of the opening, height to the top of the curve.',
+  column:'Standard party columns are 5–7 feet tall.',
+  hoop:'Measure straight across the ring, edge to edge.',
+  wall:'Width × height of the area getting balloons.',
+  frame:'Measure the path the balloons follow around the number or letter, including inner cutouts. A typical 3-ft mosaic number has an outline of roughly 8–12 feet.',
+  custom:'Any freeform path — stair rails, table skirts, ceiling lines.'
+};
+// balloons per foot (or per sqft for wall) by size, per density
+const RATES={
+  classic:{ perFt:{b16:0, b11:4, b5:0},  wall:{b16:0, b11:3, b5:0} },
+  organic:{ perFt:{b16:0.5,b11:4, b5:3},  wall:{b16:0.5,b11:3, b5:2} },
+  full:   { perFt:{b16:1, b11:5, b5:5},  wall:{b16:1, b11:4, b5:4} }
+};
+const SIZE_LABEL={b16:'16-inch',b11:'11-inch',b5:'5-inch'};
+
+function pickShape(el){
+  document.querySelectorAll('.shape-option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  shape=el.dataset.shape;
+  renderDims();
+}
+function renderDims(vals={}){
+  const wrap=$('dims');wrap.innerHTML='';
+  DIMS[shape].forEach(f=>{
+    const div=document.createElement('div');
+    div.innerHTML='<label for="dim-'+f.id+'">'+f.label+'</label><input type="number" id="dim-'+f.id+'" value="'+(vals[f.id]!==undefined?vals[f.id]:f.val)+'" min="0" step="0.5">';
+    wrap.appendChild(div);
+  });
+  $('dimNote').textContent=NOTES[shape];
+}
+function getDim(id){return +($('dim-'+id).value)||0;}
+
+function calc(pushUrl=true){
+  const density=$('density').value;
+  let feet=0, sqft=0, desc='';
+  if(shape==='garland'||shape==='custom'||shape==='frame'){
+    feet=getDim('len');desc=feet+' ft of coverage';
+  }else if(shape==='arch'){
+    const w=getDim('w'),h=getDim('h');
+    feet=Math.PI/2*Math.sqrt(2*(h*h+(w/2)*(w/2)));
+    desc='an approx. '+feet.toFixed(1)+' ft curve ('+w+' ft wide × '+h+' ft tall)';
+  }else if(shape==='hoop'){
+    const d=getDim('d');feet=Math.PI*d;
+    desc='a '+feet.toFixed(1)+' ft circumference ('+d+' ft hoop)';
+  }else if(shape==='column'){
+    feet=getDim('h')*getDim('n');
+    desc=getDim('n')+' column(s) × '+getDim('h')+' ft';
+  }else if(shape==='wall'){
+    sqft=getDim('w')*getDim('h');
+    desc=sqft.toFixed(0)+' sq ft of wall';
+  }
+  if(feet<=0&&sqft<=0)return alert('Please enter your measurements.');
+
+  const rates=shape==='wall'?RATES[density].wall:RATES[density].perFt;
+  const units=shape==='wall'?sqft:feet;
+  const counts={},BUF=1.10;
+  let total=0;
+  for(const k of ['b16','b11','b5']){
+    const c=Math.ceil(rates[k]*units*BUF);
+    if(c>0){counts[k]=c;total+=c;}
+  }
+  $('total').textContent=total+' balloons';
+  $('detail').textContent='For '+desc+' in '+$('density').selectedOptions[0].textContent.toLowerCase()+' style.';
+  const bd=$('breakdown');bd.innerHTML='';
+  for(const[k,c]of Object.entries(counts)){
+    bd.innerHTML+='<div class="stat"><div class="label">'+SIZE_LABEL[k]+'</div><div class="value">'+c+'</div></div>';
+  }
+  $('toPricing').href='pricing-calculator.html?n='+total;
+  $('results').classList.add('show');
+  if(pushUrl){
+    const q=new URLSearchParams({s:shape,d:density});
+    DIMS[shape].forEach(f=>q.set(f.id,getDim(f.id)));
+    history.replaceState(null,'','?'+q.toString());
+  }
+}
+function copyLink(){
+  navigator.clipboard.writeText(location.href).then(()=>{
+    $('shareMsg').style.display='inline';
+    setTimeout(()=>$('shareMsg').style.display='none',2000);
+  });
+}
+(function(){
+  const q=new URLSearchParams(location.search);
+  if(q.has('s')&&DIMS[q.get('s')]){
+    shape=q.get('s');
+    document.querySelectorAll('.shape-option').forEach(o=>{
+      o.classList.toggle('selected',o.dataset.shape===shape);
+    });
+    const vals={};DIMS[shape].forEach(f=>{if(q.has(f.id))vals[f.id]=q.get(f.id);});
+    renderDims(vals);
+    if(q.has('d'))$('density').value=q.get('d');
+    calc(false);
+  }else{
+    renderDims();
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Helium Tank Calculator - What Size Tank for Your Balloons?</title>
+<meta name="description" content="Free helium tank calculator, no signup. Enter your balloon counts by size to see the total helium needed and how many tanks of each size it takes.">
+<link rel="canonical" href="https://ballooncoveragecalculator.com/helium-tank-calculator.html">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="styles.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7138011475350254"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="site-name" href="/">Balloon<span>Coverage</span>Calculator</a>
+    <nav>
+      <a href="/">Coverage Calculator</a>
+      <a href="pricing-calculator.html">Pricing</a>
+      <a href="helium-tank-calculator.html" class="active">Helium Tank</a>
+      <a href="balloons-per-foot-chart.html">Per-Foot Chart</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="eyebrow">Float Planning</div>
+  <h1>Helium Tank Calculator</h1>
+  <p class="intro">Filling balloons with helium? Enter how many of each size and see the total helium volume required — and whether a disposable party tank will cut it or you need a rented cylinder.</p>
+  <div class="free-badge">100% free &middot; No account required</div>
+
+  <div class="card">
+    <div class="grid">
+      <div><label for="n9">9-inch latex balloons</label><input type="number" id="n9" value="0" min="0" step="1"></div>
+      <div><label for="n11">11-inch latex balloons</label><input type="number" id="n11" value="50" min="0" step="1"></div>
+      <div><label for="n16">16-inch latex balloons</label><input type="number" id="n16" value="0" min="0" step="1"></div>
+      <div><label for="n36">36-inch jumbo balloons</label><input type="number" id="n36" value="0" min="0" step="1"></div>
+      <div><label for="nfoil">18-inch foil balloons</label><input type="number" id="nfoil" value="0" min="0" step="1"></div>
+    </div>
+    <button class="primary" onclick="calc()">How much helium do I need?</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="big-answer">
+      <div class="label">Total helium required</div>
+      <div class="value" id="total"></div>
+      <div id="detail" style="margin-top:4px;color:var(--muted);font-size:.9rem"></div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="label">Disposable party tanks (8.9 cu ft)</div><div class="value" id="t9"></div></div>
+      <div class="stat"><div class="label">Large disposable (14.9 cu ft)</div><div class="value" id="t15"></div></div>
+      <div class="stat"><div class="label">Rented cylinder (110 cu ft)</div><div class="value" id="t110"></div></div>
+      <div class="stat"><div class="label">Rented cylinder (219 cu ft)</div><div class="value" id="t219"></div></div>
+    </div>
+    <div class="card">
+      <div class="share-row">
+        <button class="ghost" onclick="copyLink()">Copy link to these results</button>
+        <span class="share-msg" id="shareMsg">Link copied</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="explain">
+    <h2>How much helium each balloon uses</h2>
+    <p>Helium usage grows fast with balloon size, because volume scales with the cube of the diameter: a 9" latex balloon uses roughly 0.25 cubic feet, an 11" about 0.5, a 16" about 1.5, and a 36" jumbo a whopping 15 cubic feet — one jumbo drinks as much helium as thirty 11" balloons. An 18" foil balloon uses about 0.4 cubic feet. This calculator sums your counts and adds a 10% allowance for topping off, valve loss, and the tank pressure you can never quite fully use.</p>
+    <h2>Disposable tank or rented cylinder?</h2>
+    <p>The small disposable tanks sold at party stores (typically 8.9 cu ft, marketed as "fills ~30 balloons" — true for 9-inch, closer to 15&ndash;18 for 11-inch) are convenient but the most expensive helium per cubic foot. If your design needs more than two or three of them, calling a welding-gas or party supply company about a rented cylinder is nearly always cheaper. Rentals also fill balloons faster and to more consistent sizes.</p>
+    <h2>Do you even need helium?</h2>
+    <p>Worth asking before you spend: garlands, arches on frames, columns, walls, and number frames are almost always <strong>air-filled</strong> — no helium at all, and they last days instead of hours. Helium is for floating designs: ceiling balloons, string-of-pearls arches, balloon bouquets and releases. If your project came from our <a href="/">coverage calculator</a>, chances are it's an air-filled design and your helium bill is zero.</p>
+  </section>
+
+  <p class="disclaimer">Helium volumes are typical planning values; actual usage varies with inflation size and tank fill levels. This site is free to use and requires no account.</p>
+</main>
+<footer>
+  <div class="footer-inner">
+    <div>&copy; 2026 BalloonCoverageCalculator.com &middot; A <a href="https://swrltools.com">Swrl Tools</a> site</div>
+    <div><a href="about.html">About</a> &middot; <a href="contact.html">Contact</a> &middot; <a href="privacy-policy.html">Privacy</a></div>
+  </div>
+</footer>
+<script>
+const $=id=>document.getElementById(id);
+const USE={n9:0.25,n11:0.5,n16:1.5,n36:15,nfoil:0.4};
+function calc(pushUrl=true){
+  let cuft=0,count=0;
+  for(const[id,v]of Object.entries(USE)){
+    const n=+$(id).value||0;cuft+=n*v;count+=n;
+  }
+  if(count===0)return alert('Enter at least one balloon count.');
+  cuft*=1.10;
+  $('total').textContent=cuft.toFixed(1)+' cu ft';
+  $('detail').textContent='For '+count+' balloons, including a 10% allowance for top-offs and unusable tank pressure.';
+  $('t9').textContent=Math.ceil(cuft/8.9);
+  $('t15').textContent=Math.ceil(cuft/14.9);
+  $('t110').textContent=Math.ceil(cuft/110);
+  $('t219').textContent=Math.ceil(cuft/219);
+  $('results').classList.add('show');
+  if(pushUrl){
+    const q=new URLSearchParams();
+    for(const id of Object.keys(USE))q.set(id.slice(1),$(id).value);
+    history.replaceState(null,'','?'+q.toString());
+  }
+}
+function copyLink(){
+  navigator.clipboard.writeText(location.href).then(()=>{
+    $('shareMsg').style.display='inline';
+    setTimeout(()=>$('shareMsg').style.display='none',2000);
+  });
+}
+(function(){
+  const q=new URLSearchParams(location.search);let any=false;
+  for(const id of Object.keys(USE)){
+    const key=id.slice(1);
+    if(q.has(key)){$(id).value=q.get(key);any=true;}
+  }
+  if(any)calc(false);
+})();
+</script>
+</body>
+</html>
