@@ -1,0 +1,55 @@
+SWRL TOOLS LAUNCH CHECKLIST (v2 - July 2026)
+=============================================
+Domain: ballooncoveragecalculator.com
+
+DAY 1 - INFRASTRUCTURE
+[ ] 1. Register domain on Porkbun (bare registration, no add-ons)
+[ ] 2. Add site to Cloudflare, get assigned nameservers
+[ ] 3. Update nameservers at Porkbun to Cloudflare's
+[ ] 4. In Cloudflare DNS: DELETE all leftover Porkbun records (A/CNAME/MX)
+[ ] 5. Create GitHub repo, upload these files
+[ ] 6. Deploy:
+       npx wrangler deploy --assets=. --compatibility-date=2026-06-29 --name=ballooncoveragecalculator
+[ ] 7. Attach domain to the Worker (SSL errors for up to ~1 hour are normal)
+
+DAY 1 - WWW SETUP (NEW STEP - prevents Search Console duplicate errors)
+[ ] 8. DNS -> Add record: CNAME | Name: www | Target: ballooncoveragecalculator.com | orange cloud ON
+[ ] 9. Rules -> Redirect Rules -> Create rule (wildcard):
+       Request URL:  https://www.ballooncoveragecalculator.com/*
+       Target URL:   https://ballooncoveragecalculator.com/${1}
+       Status: 301 -> DEPLOY (not draft)
+[ ] 10. Verify (wait 1-2 min, incognito): www.ballooncoveragecalculator.com/about.html
+        should land on the non-www page with a padlock
+
+DAY 1 - HTTPS SETTINGS (NEW STEP - in Cloudflare, per zone)
+[ ] 10a. SSL/TLS -> Edge Certificates (or search "Always Use HTTPS" in the
+        dashboard search bar) -> toggle "Always Use HTTPS" ON
+[ ] 10b. Same page -> Enable HSTS:
+        - Max Age Header: 6 months (NOT 0/Disable - 0 means off)
+        - Apply to subdomains: OFF
+        - Preload: OFF
+        - No-Sniff Header: ON
+        -> Save
+        (Do NOT enable Bot Fight Mode or AI Labyrinth - they block the
+        Google/AdSense crawlers this whole model depends on.)
+
+DAY 1 - SEARCH
+[ ] 11. Add property in Google Search Console (domain property)
+[ ] 12. Submit sitemap: https://ballooncoveragecalculator.com/sitemap.xml
+[ ] 13. Request indexing on homepage + top 2 tool pages via URL Inspection
+        (quota is ~10/day; homepage, pricing, chart page)
+
+DAY 1 - HUB
+[ ] 14. Add site card to swrltools.com with description + accent color
+
+WEEK 3+ - MONETIZATION (do NOT submit AdSense on day 1)
+[ ] 15. Confirm pages show as indexed in Search Console -> Pages
+[ ] 16. Add site in AdSense dashboard and submit for review
+        (AdSense script with ca-pub-7138011475350254 is already in every page)
+
+NOTES BAKED INTO THIS BUILD (no action needed):
+- Canonical tags on every page
+- favicon.png included and referenced on every page
+- Privacy policy with AdSense cookie disclosures
+- "Free" in title tags + "100% free, no account required" badges on tool pages
+- Shareable URLs on all calculators
