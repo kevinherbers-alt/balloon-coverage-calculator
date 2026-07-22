@@ -112,14 +112,37 @@
     <div class="grid">
       <div>
         <label for="density">Fullness / style</label>
-        <select id="density">
+        <select id="density" onchange="onDensityChange()">
           <option value="classic">Classic — uniform 11" balloons</option>
           <option value="organic" selected>Organic — mixed sizes, standard fullness</option>
           <option value="full">Organic — extra full &amp; layered</option>
         </select>
       </div>
     </div>
-    <button class="primary" onclick="calc()">How many balloons do I need?</button>
+
+    <div id="sizePickerWrap" style="margin-top:14px">
+      <label>Which balloon sizes do you want to use? <span id="sizeRecommendNote" style="font-weight:400;color:var(--muted)"></span></label>
+      <div class="size-grid" id="sizePicker">
+        <label class="size-check">
+          <input type="checkbox" id="use-b16" checked onchange="calc()">
+          <span class="size-name">16" Statement</span>
+          <span class="size-role">Big focal balloons, used sparingly</span>
+        </label>
+        <label class="size-check">
+          <input type="checkbox" id="use-b11" checked onchange="calc()">
+          <span class="size-name">11" Classic</span>
+          <span class="size-role">The workhorse — most of the volume</span>
+        </label>
+        <label class="size-check">
+          <input type="checkbox" id="use-b5" checked onchange="calc()">
+          <span class="size-name">5" Filler</span>
+          <span class="size-role">Small balloons that fill the gaps</span>
+        </label>
+      </div>
+      <button type="button" class="ghost" onclick="resetToRecommended()" style="margin-top:8px">Reset to recommended mix</button>
+    </div>
+
+    <button class="primary" onclick="calc()" style="display:block">How many balloons do I need?</button>
   </div>
 
   <div class="results" id="results">
@@ -189,6 +212,51 @@ const RATES={
   full:   { perFt:{b16:1, b11:5, b5:5},  wall:{b16:1, b11:4, b5:4} }
 };
 const SIZE_LABEL={b16:'16-inch',b11:'11-inch',b5:'5-inch'};
+// Rough inches-of-cluster-footprint per size, used only to conserve total
+// "fullness" when a size is deselected and its share gets redistributed.
+const DIAM={b16:16,b11:11,b5:5};
+
+function onDensityChange(){
+  const density=$('density').value;
+  const picker=$('sizePickerWrap');
+  if(density==='classic'){
+    // Classic is uniform 11" by definition — no picker.
+    picker.style.display='none';
+  } else {
+    picker.style.display='block';
+    resetToRecommended();
+  }
+  if($('results').classList.contains('show'))calc();
+}
+function resetToRecommended(){
+  $('use-b16').checked=true;
+  $('use-b11').checked=true;
+  $('use-b5').checked=true;
+  $('sizeRecommendNote').textContent='(showing the recommended mix for this style)';
+  if($('results').classList.contains('show'))calc();
+}
+// Given the style's default per-unit rates, return adjusted rates that only
+// use the selected sizes, scaled so the total "fullness" stays the same as
+// the full recommended mix.
+function getSelectedRates(defaultRates){
+  const density=$('density').value;
+  if(density==='classic')return defaultRates; // no picker, use as-is
+  const selected=['b16','b11','b5'].filter(k=>$('use-'+k).checked);
+  if(selected.length===0)return null;
+  const fullBudget=['b16','b11','b5'].reduce((s,k)=>s+defaultRates[k]*DIAM[k],0);
+  const subsetSum=selected.reduce((s,k)=>s+defaultRates[k]*DIAM[k],0);
+  const scale=subsetSum>0?fullBudget/subsetSum:0;
+  const out={b16:0,b11:0,b5:0};
+  selected.forEach(k=>out[k]=defaultRates[k]*scale);
+  return out;
+}
+function sizeSummaryText(){
+  const density=$('density').value;
+  if(density==='classic')return '';
+  const selected=['b16','b11','b5'].filter(k=>$('use-'+k).checked);
+  if(selected.length===3)return '';
+  return ' Using only '+selected.map(k=>SIZE_LABEL[k]).join(' + ')+' balloons.';
+}
 
 function pickShape(el){
   document.querySelectorAll('.shape-option').forEach(o=>o.classList.remove('selected'));
@@ -228,7 +296,9 @@ function calc(pushUrl=true){
   }
   if(feet<=0&&sqft<=0)return alert('Please enter your measurements.');
 
-  const rates=shape==='wall'?RATES[density].wall:RATES[density].perFt;
+  const defaultRates=shape==='wall'?RATES[density].wall:RATES[density].perFt;
+  const rates=getSelectedRates(defaultRates);
+  if(rates===null)return alert('Pick at least one balloon size.');
   const units=shape==='wall'?sqft:feet;
   const counts={},BUF=1.10;
   let total=0;
@@ -237,16 +307,17 @@ function calc(pushUrl=true){
     if(c>0){counts[k]=c;total+=c;}
   }
   $('total').textContent=total+' balloons';
-  $('detail').textContent='For '+desc+' in '+$('density').selectedOptions[0].textContent.toLowerCase()+' style.';
+  $('detail').textContent='For '+desc+' in '+$('density').selectedOptions[0].textContent.toLowerCase()+' style.'+sizeSummaryText();
   const bd=$('breakdown');bd.innerHTML='';
   for(const[k,c]of Object.entries(counts)){
     bd.innerHTML+='<div class="stat"><div class="label">'+SIZE_LABEL[k]+'</div><div class="value">'+c+'</div></div>';
   }
-  $('toPricing').href='pricing-calculator.html?n='+total;
+  $('toPricing').href='pricing-calculator?n='+total;
   $('results').classList.add('show');
   if(pushUrl){
     const q=new URLSearchParams({s:shape,d:density});
     DIMS[shape].forEach(f=>q.set(f.id,getDim(f.id)));
+    ['b16','b11','b5'].forEach(k=>{ if(!$('use-'+k).checked) q.set('x'+k,'0'); });
     history.replaceState(null,'','?'+q.toString());
   }
 }
@@ -266,6 +337,8 @@ function copyLink(){
     const vals={};DIMS[shape].forEach(f=>{if(q.has(f.id))vals[f.id]=q.get(f.id);});
     renderDims(vals);
     if(q.has('d'))$('density').value=q.get('d');
+    $('sizePickerWrap').style.display=$('density').value==='classic'?'none':'block';
+    ['b16','b11','b5'].forEach(k=>{ $('use-'+k).checked = !q.has('x'+k); });
     calc(false);
   }else{
     renderDims();
